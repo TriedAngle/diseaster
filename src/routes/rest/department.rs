@@ -1,149 +1,77 @@
 use crate::models::{Department as Model, NewDepartment as NewModel};
-use anyhow::Result;
-use sqlx::postgres::{PgPool, PgRow};
-use sqlx::Row;
+use actix_web::web::ServiceConfig;
+use actix_web::{delete, get, patch, post, web, Error, HttpRequest, HttpResponse};
+use sqlx::PgPool;
 
-impl Model {
-    pub async fn all(pool: &PgPool) -> Result<Vec<Self>> {
-        let mut items = Vec::new();
+pub fn endpoints(config: &mut ServiceConfig) {
+    config
+        .service(all)
+        .service(by_id)
+        .service(by_name)
+        .service(by_diseases)
+        .service(new)
+        .service(update)
+        .service(delete);
+}
 
-        let recs = sqlx::query!(
-            r#"
-                SELECT id, name, diseases
-                    FROM departments
-                ORDER BY id
-            "#
-        )
-        .fetch_all(pool)
-        .await?;
-
-        for rec in recs {
-            items.push(Self {
-                id: rec.id,
-                name: rec.name,
-                diseases: rec.diseases
-            });
-        }
-
-        Ok(items)
+#[get("/api/departments")]
+pub async fn all(pool: web::Data<PgPool>, request: HttpRequest) -> Result<HttpResponse, Error> {
+    if request.query_string().is_empty() {
+        let items = Model::all(&pool).await.unwrap();
+        Ok(HttpResponse::Ok().json(items))
+    } else {
+        unimplemented!()
     }
+}
 
-    pub async fn by_id(id: i32, pool: &PgPool) -> Result<Self> {
-        let rec = sqlx::query!(
-            r#"
-                SELECT * FROM departments WHERE id = $1
-            "#,
-            id
-        )
-        .fetch_one(pool)
-        .await?;
+#[get("/api/departments/{id}")]
+pub async fn by_id(pool: web::Data<PgPool>, id: web::Path<i32>) -> Result<HttpResponse, Error> {
+    let item = Model::by_id(id.into_inner(), &pool).await.unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
 
-        Ok(Self {
-            id: rec.id,
-            name: rec.name,
-            diseases: rec.diseases
-        })
-    }
+#[get("/api/departments/by-name/{name}")]
+pub async fn by_name(
+    pool: web::Data<PgPool>,
+    name: web::Path<String>,
+) -> Result<HttpResponse, Error> {
+    let item = Model::by_name(name.into_inner(), &pool).await.unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
 
-    pub async fn by_name(name: String, pool: &PgPool) -> Result<Self> {
-        let rec = sqlx::query!(
-            r#"
-                SELECT * FROM departments WHERE name = $1
-            "#,
-            name
-        )
-        .fetch_one(pool)
-        .await?;
+#[get("/api/departments/by-diseases")]
+pub async fn by_diseases(
+    pool: web::Data<PgPool>,
+    diseases: web::Path<Vec<i32>>,
+) -> Result<HttpResponse, Error> {
+    let item = Model::by_diseases(&diseases.into_inner(), &pool)
+        .await
+        .unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
 
-        Ok(Self {
-            id: rec.id,
-            name: rec.name,
-            diseases: rec.diseases
-        })
-    }
+#[post("/api/departments")]
+pub async fn new(
+    pool: web::Data<PgPool>,
+    item: web::Json<NewModel>,
+) -> Result<HttpResponse, Error> {
+    let item = Model::create(item.into_inner(), &pool).await.unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
 
-    pub async fn by_diseases(diseases: &[i32], pool: &PgPool) -> Result<Vec<Self>> {
-        let mut items = Vec::new();
-
-        let recs = sqlx::query!(
-            r#"
-                SELECT * FROM departments WHERE diseases && $1
-            "#,
-            diseases
-        )
-            .fetch_all(pool)
-            .await?;
-
-        for rec in recs {
-            items.push(Self {
-                id: rec.id,
-                name: rec.name,
-                diseases: rec.diseases
-            });
-        }
-
-        Ok(items)
-    }
-
-    pub async fn create(item: NewModel, pool: &PgPool) -> Result<Self> {
-        let mut tx = pool.begin().await?;
-        let created = sqlx::query(
-            r#"
-                INSERT INTO departments (name, diseasas) VALUES ($1)
-                RETURNING id, name, diseases
-            "#,
-        )
-        .bind(&item.name)
-        .bind(&item.diseases)
-        .map(|row: PgRow| Self {
-            id: row.get(0),
-            name: row.get(1),
-            diseases: row.get(2)
-        })
-        .fetch_one(&mut tx)
-        .await?;
-
-        tx.commit().await?;
-        Ok(created)
-    }
-
-    pub async fn update(id: i32, item: NewModel, pool: &PgPool) -> Result<Self> {
-        let mut tx = pool.begin().await?;
-        let updated = sqlx::query(
-            r#"
-                UPDATE departments SET name = $1, diseases = $2
-                WHERE id = $3
-                RETURNING id, name, diseases
-            "#,
-        )
-        .bind(&item.name)
-        .bind(&item.diseases)
-        .bind(id)
-        .map(|row: PgRow| Self {
-            id: row.get(0),
-            name: row.get(1),
-            diseases: row.get(2)
-        })
-        .fetch_one(&mut tx)
-        .await?;
-
-        tx.commit().await?;
-        Ok(updated)
-    }
-
-    pub async fn delete(id: i32, pool: &PgPool) -> Result<bool> {
-        let mut tx = pool.begin().await?;
-        sqlx::query(
-            r#"
-                DELETE FROM departments
-                WHERE id = $1
-            "#,
-        )
-        .bind(id)
-        .execute(&mut tx)
-        .await?;
-
-        tx.commit().await?;
-        Ok(true)
-    }
+#[patch("/api/departments/{id}")]
+pub async fn update(
+    pool: web::Data<PgPool>,
+    id: web::Path<i32>,
+    item: web::Json<NewModel>,
+) -> Result<HttpResponse, Error> {
+    let item = Model::update(id.into_inner(), item.into_inner(), &pool)
+        .await
+        .unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
+#[delete("/api/departments/{id}")]
+pub async fn delete(pool: web::Data<PgPool>, id: web::Path<i32>) -> Result<HttpResponse, Error> {
+    let item = Model::delete(id.into_inner(), &pool).await.unwrap();
+    Ok(HttpResponse::Ok().json(item))
 }

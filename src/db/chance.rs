@@ -1,4 +1,4 @@
-use crate::models::{Symptom as Model, NewSymptom as NewModel};
+use crate::models::Chance as Model;
 use anyhow::Result;
 use sqlx::postgres::{PgPool, PgRow};
 use sqlx::Row;
@@ -9,9 +9,9 @@ impl Model {
 
         let recs = sqlx::query!(
             r#"
-                SELECT id, name
-                    FROM symptoms
-                ORDER BY id
+                SELECT disease, chance
+                    FROM chances
+                ORDER BY disease
             "#
         )
         .fetch_all(pool)
@@ -19,58 +19,59 @@ impl Model {
 
         for rec in recs {
             items.push(Self {
-                id: rec.id,
-                name: rec.name,
+                disease: rec.disease,
+                chance: rec.chance,
             });
         }
 
         Ok(items)
     }
 
-    pub async fn by_id(id: i32, pool: &PgPool) -> Result<Self> {
+    pub async fn by_disease(disease: i32, pool: &PgPool) -> Result<Self> {
         let rec = sqlx::query!(
             r#"
-                SELECT * FROM symptoms WHERE id = $1
+                SELECT * FROM chances WHERE disease = $1
             "#,
-            id
+            disease
         )
         .fetch_one(pool)
         .await?;
 
         Ok(Self {
-            id: rec.id,
-            name: rec.name,
+            disease: rec.disease,
+            chance: rec.chance,
         })
     }
 
-    pub async fn by_name(name: String, pool: &PgPool) -> Result<Self> {
+    pub async fn by_chance(chance: i32, pool: &PgPool) -> Result<Self> {
         let rec = sqlx::query!(
             r#"
-                SELECT * FROM symptoms WHERE name = $1
+                SELECT * FROM chances WHERE chance = $1
             "#,
-            name
+            chance
         )
         .fetch_one(pool)
         .await?;
 
         Ok(Self {
-            id: rec.id,
-            name: rec.name,
+            disease: rec.disease,
+            chance: rec.chance,
         })
     }
 
-    pub async fn create(item: NewModel, pool: &PgPool) -> Result<Self> {
+    pub async fn create(item: Model, pool: &PgPool) -> Result<Self> {
         let mut tx = pool.begin().await?;
         let created = sqlx::query(
             r#"
-                INSERT INTO symptoms (name) VALUES ($1)
-                RETURNING id, name
+                INSERT INTO chances (disease, chance) VALUES ($1, $2)
+                RETURNING disease, chance
             "#,
         )
-        .bind(&item.name)
+        .bind(&item.disease)
+        .bind(&item.chance)
         .map(|row: PgRow| Self {
-            id: row.get(0),
-            name: row.get(1),
+            disease: row.get(0),
+            chance: row.get(1),
         })
         .fetch_one(&mut tx)
         .await?;
@@ -79,20 +80,20 @@ impl Model {
         Ok(created)
     }
 
-    pub async fn update(id: i32, item: NewModel, pool: &PgPool) -> Result<Self> {
+    pub async fn update(disease: i32, chance: i32, pool: &PgPool) -> Result<Self> {
         let mut tx = pool.begin().await?;
         let updated = sqlx::query(
             r#"
-                UPDATE symptoms SET name = $1
-                WHERE id = $2
-                RETURNING id, name
+                UPDATE chances SET chance = $1
+                WHERE disease = $2
+                RETURNING disease, chance
             "#,
         )
-        .bind(&item.name)
-        .bind(id)
+        .bind(chance)
+        .bind(disease)
         .map(|row: PgRow| Self {
-            id: row.get(0),
-            name: row.get(1),
+            disease: row.get(0),
+            chance: row.get(1),
         })
         .fetch_one(&mut tx)
         .await?;
@@ -105,8 +106,8 @@ impl Model {
         let mut tx = pool.begin().await?;
         sqlx::query(
             r#"
-                DELETE FROM symptoms
-                WHERE id = $1
+                DELETE FROM chances
+                WHERE disease = $1
             "#,
         )
         .bind(id)

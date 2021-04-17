@@ -1,120 +1,65 @@
-use crate::models::{Chance as Model};
-use anyhow::Result;
-use sqlx::postgres::{PgPool, PgRow};
-use sqlx::Row;
+use crate::models::Chance as Model;
+use actix_web::web::ServiceConfig;
+use actix_web::{delete, get, patch, post, web, Error, HttpRequest, HttpResponse};
+use sqlx::PgPool;
 
-impl Model {
-    pub async fn all(pool: &PgPool) -> Result<Vec<Self>> {
-        let mut items = Vec::new();
+pub fn endpoints(config: &mut ServiceConfig) {
+    config
+        .service(all)
+        .service(by_disease)
+        .service(by_chance)
+        .service(new)
+        .service(update)
+        .service(delete);
+}
 
-        let recs = sqlx::query!(
-            r#"
-                SELECT disease, chance
-                    FROM chances
-                ORDER BY disease
-            "#
-        )
-        .fetch_all(pool)
-        .await?;
-
-        for rec in recs {
-            items.push(Self {
-                disease: rec.disease,
-                chance: rec.chance,
-            });
-        }
-
-        Ok(items)
+#[get("/api/chances")]
+pub async fn all(pool: web::Data<PgPool>, request: HttpRequest) -> Result<HttpResponse, Error> {
+    if request.query_string().is_empty() {
+        let items = Model::all(&pool).await.unwrap();
+        Ok(HttpResponse::Ok().json(items))
+    } else {
+        unimplemented!()
     }
+}
 
-    pub async fn by_disease(disease: i32, pool: &PgPool) -> Result<Self> {
-        let rec = sqlx::query!(
-            r#"
-                SELECT * FROM chances WHERE disease = $1
-            "#,
-            disease
-        )
-        .fetch_one(pool)
-        .await?;
+#[get("/api/chances/{id}")]
+pub async fn by_disease(
+    pool: web::Data<PgPool>,
+    id: web::Path<i32>,
+) -> Result<HttpResponse, Error> {
+    let item = Model::by_disease(id.into_inner(), &pool).await.unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
 
-        Ok(Self {
-            disease: rec.disease,
-            chance: rec.chance,
-        })
-    }
+#[get("/api/chances/by-chance/{name}")]
+pub async fn by_chance(
+    pool: web::Data<PgPool>,
+    chance: web::Path<i32>,
+) -> Result<HttpResponse, Error> {
+    let item = Model::by_chance(chance.into_inner(), &pool).await.unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
 
-    pub async fn by_chance(chance: i32, pool: &PgPool) -> Result<Self> {
-        let rec = sqlx::query!(
-            r#"
-                SELECT * FROM chances WHERE chance = $1
-            "#,
-            chance
-        )
-        .fetch_one(pool)
-        .await?;
+#[post("/api/chances")]
+pub async fn new(pool: web::Data<PgPool>, item: web::Json<Model>) -> Result<HttpResponse, Error> {
+    let item = Model::create(item.into_inner(), &pool).await.unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
 
-        Ok(Self {
-            disease: rec.disease,
-            chance: rec.chance,
-        })
-    }
-
-    pub async fn create(item: Model, pool: &PgPool) -> Result<Self> {
-        let mut tx = pool.begin().await?;
-        let created = sqlx::query(
-            r#"
-                INSERT INTO chances (disease, chance) VALUES ($1, $2)
-                RETURNING disease, chance
-            "#,
-        )
-        .bind(&item.disease)
-        .bind(&item.chance)
-        .map(|row: PgRow| Self {
-            disease: row.get(0),
-            chance: row.get(1)
-        })
-        .fetch_one(&mut tx)
-        .await?;
-
-        tx.commit().await?;
-        Ok(created)
-    }
-
-    pub async fn update(disease: i32, chance: i32, pool: &PgPool) -> Result<Self> {
-        let mut tx = pool.begin().await?;
-        let updated = sqlx::query(
-            r#"
-                UPDATE chances SET chance = $1
-                WHERE disease = $2
-                RETURNING disease, chance
-            "#,
-        )
-        .bind(chance)
-        .bind(disease)
-        .map(|row: PgRow| Self {
-            disease: row.get(0),
-            chance: row.get(1)
-        })
-        .fetch_one(&mut tx)
-        .await?;
-
-        tx.commit().await?;
-        Ok(updated)
-    }
-
-    pub async fn delete(id: i32, pool: &PgPool) -> Result<bool> {
-        let mut tx = pool.begin().await?;
-        sqlx::query(
-            r#"
-                DELETE FROM chances
-                WHERE disease = $1
-            "#,
-        )
-        .bind(id)
-        .execute(&mut tx)
-        .await?;
-
-        tx.commit().await?;
-        Ok(true)
-    }
+#[patch("/api/chances")]
+pub async fn update(
+    pool: web::Data<PgPool>,
+    item: web::Json<Model>,
+) -> Result<HttpResponse, Error> {
+    let item = item.into_inner();
+    let item = Model::update(item.disease, item.chance, &pool)
+        .await
+        .unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
+#[delete("/api/chances/{id}")]
+pub async fn delete(pool: web::Data<PgPool>, id: web::Path<i32>) -> Result<HttpResponse, Error> {
+    let item = Model::delete(id.into_inner(), &pool).await.unwrap();
+    Ok(HttpResponse::Ok().json(item))
 }

@@ -6,6 +6,6 @@ pub fn endpoints(config: &mut ServiceConfig) {
 }
 
 #[get("/")]
-async fn index(req: HttpRequest) -> impl Responder {
-    format!("Hello dear user, welcome to the Carol Emoji Cooking Bot Api �!")
+async fn index(_req: HttpRequest) -> impl Responder {
+    format!("Hello dear user, welcome to the Diseaster API!")
 }
