@@ -83,19 +83,30 @@ while parser.readRow:
                         add(disease, val)
 
                     diseases.add(disease)
+                    char_disease = newSeq[char]()
                 else:
                     if character != '\'':
                         char_disease.add(character)
 
-        if col == "department":
+        if col == "departments":
             department = parser.rowEntry(col)
 
     full_departments[department] = diseases
 
 parser.close()
 
-var client = newHttpClient()
-client.headers = newHttpHeaders({"Content-Type": "application/json"})
+echo "unique symptoms: ", unique_symptoms
+echo "unique diseases: ", unique_diseases
+echo "departments: ", full_departments
+
+var symptom_client = newHttpClient()
+symptom_client.headers = newHttpHeaders({"Content-Type": "application/json"})
+
+var disease_client = newHttpClient()
+disease_client.headers = newHttpHeaders({"Content-Type": "application/json"})
+
+var department_client = newHttpClient()
+department_client.headers = newHttpHeaders({"Content-Type": "application/json"})
 
 var symptomIds = initTable[string, int]()
 var diseaseIds = initTable[string, int]()
@@ -106,10 +117,11 @@ for symptom in unique_symptoms:
       "name": symptom
     }
 
-
-    let response = client.postContent("http://localhost:8080/api/symptoms", body = $body)
+    let response = symptom_client.postContent("http://localhost:8080/api/symptoms", body = $body)
     let data = parseJson(response);
     symptomIds[symptom] = data["id"].getInt()
+
+symptom_client.close()
 
 for disease, symptoms in full_diseases:
     var symptomsInIds = newSeq[int]()
@@ -117,30 +129,46 @@ for disease, symptoms in full_diseases:
     for symptom in symptoms:
         symptomsInIds.add(symptomIds[symptom])
 
-    let body = %* {
+    let body_disease = %* {
       "name": disease,
       "symptoms": symptomsInIds
     }
 
-    let response = client.postContent("http://localhost:8080/api/diseases", body = $body)
+    let response = disease_client.postContent("http://localhost:8080/api/diseases", body = $body_disease)
     let data = parseJson(response);
     diseaseIds[disease] = data["id"].getInt()
 
+disease_client.close()
 
 for department, diseases in full_departments:
     var diseasesInIds = newSeq[int]()
 
+    var client = newHttpClient()
+    client.headers = newHttpHeaders({"Content-Type": "application/json"})
     for disease in diseases:
-        diseasesInIds.add(diseaseIds[disease])
+      try:
+        let disease: string = disease
+        var address = "http://localhost:8080/api/diseases/by-name/" & disease
+        address = address.replace(" ", "%20")
+        echo "address: ", address
+        let response = client.getContent(address)
+        let data = parseJson(response);
+        diseasesInIds.add(data["id"].getInt())
+      except:
+        echo "ignore: ", disease
 
-    let body = %* {
+    client.close()
+
+    let department_body = %* {
       "name": department,
       "diseases": diseasesInIds
     }
 
-    let response = client.postContent("http://localhost:8080/api/departments", body = $body)
-    let data = parseJson(response);
-    departmentIds[department] = data["id"].getInt()
+    let response = department_client.postContent("http://localhost:8080/api/departments", body = $department_body)
+    echo "response: ", response
+
+
+department_client.close()
 
 echo "symptoms_to_ids: ", symptomIds
 echo "diseases_to_ids: ", diseaseIds

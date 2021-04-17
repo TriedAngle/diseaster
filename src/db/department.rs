@@ -89,7 +89,7 @@ impl Model {
         let mut tx = pool.begin().await?;
         let created = sqlx::query(
             r#"
-                INSERT INTO departments (name, diseasas) VALUES ($1)
+                INSERT INTO departments (name, diseases) VALUES ($1, $2)
                 RETURNING id, name, diseases
             "#,
         )
