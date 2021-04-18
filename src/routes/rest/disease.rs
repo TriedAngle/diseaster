@@ -1,4 +1,4 @@
-use crate::models::{Disease as Model, NewDisease as NewModel};
+use crate::models::{Disease as Model, ExtendedDisease, NewDisease as NewModel, Symptom};
 use actix_web::web::ServiceConfig;
 use actix_web::{delete, get, patch, post, web, Error, HttpRequest, HttpResponse};
 use sqlx::PgPool;
@@ -6,6 +6,7 @@ use sqlx::PgPool;
 pub fn endpoints(config: &mut ServiceConfig) {
     config
         .service(all)
+        .service(all_extended)
         .service(by_id)
         .service(by_name)
         .service(by_symptoms)
@@ -19,6 +20,31 @@ pub async fn all(pool: web::Data<PgPool>, request: HttpRequest) -> Result<HttpRe
     if request.query_string().is_empty() {
         let items = Model::all(&pool).await.unwrap();
         Ok(HttpResponse::Ok().json(items))
+    } else {
+        unimplemented!()
+    }
+}
+
+#[get("/api/e/diseases")]
+pub async fn all_extended(
+    pool: web::Data<PgPool>,
+    request: HttpRequest,
+) -> Result<HttpResponse, Error> {
+    if request.query_string().is_empty() {
+        let items = Model::all(&pool).await.unwrap();
+        let mut extended_items = vec![];
+        for item in items.iter() {
+            let mut temp_symptoms = vec![];
+            for id in item.symptoms.iter() {
+                temp_symptoms.push(Symptom::by_id(*id, &pool).await.unwrap());
+            }
+            extended_items.push(ExtendedDisease {
+                id: item.id,
+                name: item.name.clone(),
+                symptoms: temp_symptoms,
+            });
+        }
+        Ok(HttpResponse::Ok().json(extended_items))
     } else {
         unimplemented!()
     }

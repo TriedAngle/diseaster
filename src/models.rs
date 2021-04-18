@@ -20,6 +20,13 @@ pub struct Disease {
     pub symptoms: Vec<i32>,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ExtendedDisease {
+    pub id: i32,
+    pub name: String,
+    pub symptoms: Vec<Symptom>,
+}
+
 #[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
 pub struct NewDisease {
     pub name: String,
