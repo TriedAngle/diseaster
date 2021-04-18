@@ -57,7 +57,6 @@ class _MyAppState extends State<MyApp> {
     });
     var uri = Uri.parse(DotEnv.env["MATCH_SERVICE_ADDRESS"] + "/api/matcher");
     var body = {'text': lastWords};
-    print(body);
     var response = await http.post(uri, body: body);
     if (response.statusCode == 200) {
       var decode = json.decode(response.body);
@@ -98,25 +97,25 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Center(
-                        child: Text(
-                          'Text:',
-                          style: TextStyle(
-                              fontSize: 17.0, color: Colors.blueAccent),
-                        ),
+                Column(
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        'Text:',
+                        style:
+                            TextStyle(fontSize: 17.0, color: Colors.blueAccent),
                       ),
-                      Expanded(
-                          child: TextField(
-                            controller: controller,
-                            onSubmitted: submitText,
-
-                          )
-                      )
-                    ],
-                  ),
+                    ),
+                    Center(
+                        child: TextField(
+                          controller: controller,
+                          onSubmitted: submitText,
+                          onChanged: submitText,
+                          minLines: 1,
+                          maxLines: 8,
+                        )
+                    ),
+                  ],
                 ),
                 Expanded(
                   child: Column(
@@ -130,10 +129,9 @@ class _MyAppState extends State<MyApp> {
                       ),
                       Expanded(
                           child: Container(
-                        child: responseText == "" ?
-                          Text("Awaiting Input")
-                            : Text(responseText)
-                      ))
+                              child: responseText == ""
+                                  ? Text("Awaiting Input")
+                                  : Text(responseText)))
                     ],
                   ),
                 ),

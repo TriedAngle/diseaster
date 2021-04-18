@@ -8,7 +8,7 @@ pub fn endpoints(config: &mut ServiceConfig) {
         .service(all)
         .service(by_id)
         .service(by_name)
-        .service(by_diseases)
+        .service(by_disease)
         .service(new)
         .service(update)
         .service(delete);
@@ -39,12 +39,24 @@ pub async fn by_name(
     Ok(HttpResponse::Ok().json(item))
 }
 
-#[get("/api/departments/by-diseases")]
-pub async fn by_diseases(
+// #[get("/api/departments/by-diseases")]
+// pub async fn by_diseases(
+//     pool: web::Data<PgPool>,
+//     diseases: web::Path<Vec<i32>>,
+// ) -> Result<HttpResponse, Error> {
+//     let item = Model::by_diseases(&diseases.into_inner(), &pool)
+//         .await
+//         .unwrap();
+//     Ok(HttpResponse::Ok().json(item))
+// }
+
+#[get("/api/departments/by-disease/{disease}")]
+pub async fn by_disease(
     pool: web::Data<PgPool>,
-    diseases: web::Path<Vec<i32>>,
+    disease: web::Path<i32>,
 ) -> Result<HttpResponse, Error> {
-    let item = Model::by_diseases(&diseases.into_inner(), &pool)
+    let diseases = vec![disease.into_inner()];
+    let item = Model::by_disease(&diseases, &pool)
         .await
         .unwrap();
     Ok(HttpResponse::Ok().json(item))

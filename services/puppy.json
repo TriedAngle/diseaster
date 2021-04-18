@@ -1,0 +1,79 @@
+{"text": "puppy A is happy", "metadata": "emotional state of puppy A"}
+{"text": "puppy B is sad", "metadata": "emotional state of puppy B"}
+{"text": "starting pain, joint pain", "metadata": "arthritis"}
+{"text": "increased urine output, increased thirst, dehydration", "metadata": "Polyuria"}
+{"text": "frequent, painful urination of small amounts of urine, cramp-like pain in the bladder, unpleasant smelling urine, cloudy urine, blood in urine, fever", "metadata": "Cystitis"}
+{"text": "starting pain, joint pain", "metadata": "arthritis"}
+{"text": "frequent, painful urination of small amounts of urine, cramp-like pain in the bladder, unpleasant smelling urine, cloudy urine, blood in urine, fever", "metadata": "Cystitis"}
+{"text": "increased urine output, increased thirst, dehydration", "metadata": "Polyuria"}
+{"text": "Pregnancy, Sudden onset of strong urge to urinate even though the bladder is not full, need to go to the toilet immediately, urge to urinate that cannot be delayed, frequent urination", "metadata": "Urinary incontinence"}
+{"text": "pelvic pain, pain during intercourse, difficulty emptying your bowels, frequent urination, bloating, swollen tummy, heavy periods, irregular periods, lighter periods, difficulty getting pregnant", "metadata": "Ovarian cysts"}
+{"text": "Overweight, accumulation of fat, not physically able-bodied, joint pain, heavy sweating", "metadata": "Obesity"}
+{"text": "pain on the move, loss of function of the joint, swelling misalignment, wrong agility, crunching when moving", "metadata": "Torn ligament"}
+{"text": "cramping, achiness, fatigue, pain in the legs during activity or exercise, discomfort in the legs and feet", "metadata": "Peripheral Artery Disease"}
+{"text": "fever, fatigue, redness, swelling, skin infection, cough, hoarseness, diarrhea, abdominal pain", "metadata": "bacterial infection"}
+{"text": "pain, are swollen, stiff, possibly red, feel warm", "metadata": "Scoliosis"}
+{"text": "fever, pain or redness at the site of infection, drowsiness, confusion, seizures", "metadata": "Neurological infections"}
+{"text": "pelvic pressure or pain, pain during intercourse, pain during urination, weight loss, bleeding from the bladder or rectum, pain during bowel movements, unusual vaginal discharge, difficult urination, blood in urine, buildup of fluid in the abdomen", "metadata": "Uterine cancer"}
+{"text": "Bloating, pain in the upper abdomen, decreased appetite, nausea, vomiting, heartburn, belching, bad breath, flatulence, insipid taste in the mouth feeling full, back pain, diarrhea", "metadata": "Gastritis"}
+{"text": "Bloating, malaise, flatulence, bloating, hard or painful stool, feeling of incomplete emptying of the bowel, stomach pain, loss of appetite", "metadata": "Colon cancer"}
+{"text": "Pain in the back", "metadata": "Back pain"}
+{"text": "Fasting pain, symptoms occur hours after you last fed or at night, Nausea and vomiting, Changes in bowel habits, diarrhea", "metadata": "irritable bowel"}
+{"text": "shortness of breath, trouble breathing, fatigue, swelling in the ankles,feet,legs,abdomen and veins in the neck, dizziness, lightheadedness, fainting during physical activity, irregular heartbeats, chest pain, heart murmurs", "metadata": "Cardiomyopathy"}
+{"text": "Loss of appetite, weight loss, poor performance, nausea and vomiting, anemia, black stools", "metadata": "stomach ulcer"}
+{"text": "itching and irritation in the vagina and vulva, burning sensation, vaginal pain and soreness, vaginal rash, thick,white,odor-free vaginal discharge, redness and swelling of the vulva", "metadata": "Yeast infection"}
+{"text": "temporary confusion, staring spell, uncontrollable jerking movements of the arms and legs, loss of consciousness or awareness, fear, anxiety, deja vu", "metadata": "Epilepsy"}
+{"text": "fatigue, vision problems, numbness, tingling, muscle spasms, stiffness, weakness, mobility problems", "metadata": "Multiple sclerosis"}
+{"text": "loss of vision, double vision, pain above or around your eye, numbness or weakness on one side of your face, difficulty speaking, headaches, loss of balance, difficulty concentrating or problems with short-term memory", "metadata": "Brain aneurysm"}
+{"text": "fatigue, weakness, dizziness, lightheadedness, fainting or near-fainting spells, rapid heartbeat, pounding in the chest, shortness of breath, anxiety, chest pain or pressure", "metadata": "Arrhythmias"}
+{"text": "intense headache on one side of the head, feeling sick, increased sensitivity to light and sound, sweating, poor concentration, feeling very hot or very cold", "metadata": "Migraine"}
+{"text": "trembling in hands,arms,legs,jaw,or head, stiffness of the limbs and trunk, slowness of movement, impaired balance and coordination", "metadata": "Parkinsons Disease"}
+{"text": "increased vaginal discharge, pain during intercourse, bleeding after intercourse, longer and heavier menstrual bleeding, intermenstrual bleedings", "metadata": "Cervical cancer"}
+{"text": "Works above head height, turns on its side at night, spread the affected arm to the side", "metadata": "Flat foot"}
+{"text": "Feeling thirsty, frequent urination, loss of appetite, ravenous appetite, weight gain, fatigue", "metadata": "Diabetes type 2"}
+{"text": "memory loss, fifficulty communicating or finding words, difficulty reasoning or problem-solving, difficulty with visual and spatial abilities, difficulty with coordination and motor functions, confusion and disorientation, depression, anxiety", "metadata": "Dementia"}
+{"text": "Chest pain, tightness in chest, burning behind breastbone, pain in left arm, neck, back, throat, teeth, upper abdomen", "metadata": "Coronary heart disease"}
+{"text": "different shoulder height, unilateral arching of the chest towards the back, differently positioned shoulder blades, pelvis shifted to the side or inclined", "metadata": "Fractures"}
+{"text": "Shortness of breath on movement, chest tightness, palpitations, nausea, blurred vision, nervousness, anxiety, profuse sweating", "metadata": "Essential Hypertonia"}
+{"text": "painless induration inside the scrotum, surface of the testicle feels knotty or bumpy, enlargement of one testicle, testicle feels heavy, pulling down to the groin, pain in the testicle, stinging or squeezing in the testicle, back pain, breast growth, chest pain, bone pain, loss of appetite", "metadata": "Testicular Cancer"}
+{"text": "Redness, swelling, pain during urination, blood in the urine, fever, chills", "metadata": "Urinary tract infections"}
+{"text": "Forefoot splayed outwards, restricted movement, foot pain", "metadata": "Hallux valgus"}
+{"text": "Middle right upper abdominal pain, radiation of pain in the back or right shoulder, nausea, vomiting", "metadata": "constipation"}
+{"text": "thin,gray,white or green vaginal discharge, vaginal itching, burning during urination, foul-smelling odor", "metadata": "Bacterial vaginosis"}
+{"text": "Irregular stool, blood in the stool fatigue, loss of performance, unintended weight loss, loss of appetite, stomach pain, flatulence, night sweats", "metadata": "Stomach cancer"}
+{"text": "Shortness of breath, listlessness, rapid onset of fatigue, water retention, loss of appetite, palpitations, dizziness", "metadata": "heart failure"}
+{"text": "Forced clearing of the throat, tightness in the throat area, difficulty swallowing, difficulty breathing, shortness of breath", "metadata": "Struma"}
+{"text": "Knee pain, coordination problems, heating of the joint, pain behind the kneecap", "metadata": "Gonarthrose"}
+{"text": "Sudden,sharp,stabbing,cramping,undulating pain that may radiate to the back, lateral lower abdomen, groin or genital region, nausea, , vomiting, bowel movements blocked, frequent urination of small amounts, blood in the urine, restlessness, sweating, fever, chills", "metadata": "Kidney stones"}
+{"text": "Difficulty swallowing, bad breath, belching, damage to tooth enamel, cough", "metadata": "Gastroesophageal reflux disease"}
+{"text": "Discomfort during urination, weakened urinary stream, nocturnal urge to urinate, nighttime dribbling, residual urinary sensation, clenching during peeing, frequent urge to urinate, interrupted urinary stream, delayed urination, erectile dysfunction", "metadata": "Prostate Hyperplasia"}
+{"text": "Numbness in extremities, muscle versapnations, forced posture, dizzy spells, no control over bowels, no control over bladder, paralytic symptoms", "metadata": "Spondylose"}
+{"text": "Pressure and stress pain, severe swelling, bruise, inflammation, redness", "metadata": "Impingement syndrome of the shoulder"}
+{"text": "Diffuse abdominal pain, difficult bowel movements, diarrhea, bloating and gas, increased sensitivity of the intestine, pain in response to stimuli", "metadata": "Appendicitis"}
+{"text": "Sore throat, cough, cold, hoarseness, headache, tired, fever", "metadata": "Cold"}
+{"text": "Sharp or pressing pain under rib cage, loss of appetite, digestive problems, nausea, vomiting, pain between meals, less pain after eating, bloody stools, abdominal pain", "metadata": "Duodenitis"}
+{"text": "painful periods, pelvic pain, cramping, lower back pain, abdominal pain, pain during intercourse, heavy menstrual bleeding, intermenstrual bleeding, infertility, bloating", "metadata": "Endometriosis"}
+{"text": "Chills, runny nose, runny nose, red eyes, sore throat, cough, headache, aching limbs, fever", "metadata": "viral infection"}
+{"text": "irregular periods, heavy bleeding, hair growth on face and body, acne, weight gain, male pattern baldness, darkening of skin, headaches", "metadata": "Polycystic ovary sydrom"}
+{"text": "heavy menstrual bleeding, pelvic pressure or pain, frequent urination, constipation, backache, leg pains, difficulty emptying the bladder, long-lasting menstrual periods", "metadata": "Uterine fibroid"}
+{"text": "muscle pain, shooting or stabbing pain, pain radiating into the leg or arm, limited mobility, Problems straightening up", "metadata": "arthrosis"}
+{"text": "tightness,squeezing,fullness,pain,or aching in the chest or arms, difficulty breathing, anxiety, dizziness, nausea, indigestion, heartburn, excessive fatigue", "metadata": "Heart Attack"}
+{"text": "loss of bowel or bladder control, staring, jerking movements of the arms and legs, stiffening of the body, loss of consciousness", "metadata": "Seizures"}
+{"text": "Abdominal pain, nausea, vomiting, loss of appetite, diarrhea, fever", "metadata": "Crohns disease"}
+{"text": "despondent, joyless, listless, powerless, no fun", "metadata": "Depression"}
+{"text": "blue tinge to the skin, rapid breathing, rapid heartbeat, swelling in the legs, fainting during exercise, swelling in the hands,ankles or feet", "metadata": "Congenital Heart Disease"}
+{"text": "unusual heartbeat, pain or pressure in your upper body, shortness of breath, numbness or weakness in your arms or legs, drooping facial muscles, trouble seeing, leg pain when walking, paralysis", "metadata": "Atherosclerosis"}
+{"text": "Pain during urination, weakened urinary stream, pain during ejaculation, erection problems, blood in the urine or seminal fluid, pain in the prostate area, problems with bowel movements, back pain, especially in the coccyx or lumbar area", "metadata": "Prostate Cancer"}
+{"text": "muscle twitches in the arm,leg,shoulder,or tongue, muscle cramps, tight and stiff muscles, slurred and nasal speech, difficulty chewing or swallowing, muscle weakness affecting an arm,a leg,neck or diaphragm", "metadata": "Amyotrophic lateral sclerosis"}
+{"text": "Fatigue, exhaustion, dizziness, general aches and pains, respiratory problems, gastrointestinal problems, cardiovascular disorders, sexual complaints, depression, anxiety disorders", "metadata": "somatoform disorder"}
+{"text": "Legs feel heavy, tired, tense, lower legs swell in the evening, ankles swell in the evening, discomfort when sitting or standing for long periods of time, calf cramps at night, tingling in calves, veins bulge, red spots on feet or legs", "metadata": "Varicose veins"}
+{"text": "foul-smelling vaginal discharge, genital redness, burning and itching, pain during urination, pain during intercourse", "metadata": "Trichomoniasis"}
+{"text": "Pain, body size decrease, strong curvature, spontaneous fractures, fracture without reason", "metadata": "osteoporosis"}
+{"text": "Heart beats fast, tired, breathless, dizzy, pressure on the chest", "metadata": "Atrial Flutter"}
+{"text": "numbness or weakness?in the face or limbs, trouble speaking and understanding, trouble seeing, dizziness, loss of balance, severe headache with no known cause", "metadata": "Carotid Artery Disease"}
+{"text": "dizziness, nausea, vomiting, severe headache, confusion, disorientation, memory loss, numbness,weakness in an arm,leg or the face, loss of vision, loss of balance, abnormal speech", "metadata": "Stroke"}
+{"text": "rapid fatigue, impaired concentration, nausea, less urination, edema in legs, shortness of breath, dizziness, loss of consciousness, thirst, low blood pressure, dry mucous membranes, nausea, vomiting, pain in lower abdomen", "metadata": "Kidney failure"}
+{"text": "Sharp tenderness without improvement after eating, nausea, vomiting, feeling of fullness, loss of appetite", "metadata": "Duodenal ulcer"}
+{"text": "chest pain or discomfort, weakness, light-headedness, nausea, cold sweat, shortness of breath, pain or discomfort in the arms or shoulder", "metadata": "Coronary Artery Disease"}
+{"text": "The base joint of the big toe  outwards from its normal axis, the big toe can slide over or under the neighboring little toes", "metadata": "Gallstone disease"}
+{"text": "fatigue, rapid and irregular heartbeat, fluttering in the chest, dizziness, shortness of breath, anxiety, weakness, faintness, confusion, fatigue when exercising, sweating", "metadata": "Atrial fibrillation"}

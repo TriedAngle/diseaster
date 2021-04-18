@@ -62,27 +62,22 @@ impl Model {
         })
     }
 
-    pub async fn by_diseases(diseases: &[i32], pool: &PgPool) -> Result<Vec<Self>> {
-        let mut items = Vec::new();
-
-        let recs = sqlx::query!(
+    pub async fn by_disease(disease: &[i32], pool: &PgPool) -> Result<Self> {
+        let rec = sqlx::query!(
             r#"
                 SELECT * FROM departments WHERE diseases && $1
             "#,
-            diseases
+            disease
         )
-        .fetch_all(pool)
+        .fetch_one(pool)
         .await?;
 
-        for rec in recs {
-            items.push(Self {
-                id: rec.id,
-                name: rec.name,
-                diseases: rec.diseases,
-            });
-        }
+        Ok(Self {
+            id: rec.id,
+            name: rec.name,
+            diseases: rec.diseases,
+        })
 
-        Ok(items)
     }
 
     pub async fn create(item: NewModel, pool: &PgPool) -> Result<Self> {
